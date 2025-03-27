@@ -28,6 +28,6 @@ runs:
         echo "Pulling multiple images from file: ${{ inputs.filepath }}"
         while IFS= read -r image; do
           echo "Pulling $image..."
-          docker pull "$image"
+          docker pull "huggingface/$image"
         done < "${{ inputs.filepath }}"
       shell: bash
