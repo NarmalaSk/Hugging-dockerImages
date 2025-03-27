@@ -1,35 +1,33 @@
-name: pull docker image
-description: Pull Hugging face ML Model docker image from docker hub
-inputs:
-    modelname:
-        description: 'Model name'
-        required: true
-        default: 'transformers-all-latest-torch-nightly-gpu'
+name: Pull Docker Images
+description: Pulls a Hugging Face ML model or multiple Docker images from a file
 
-name: Pull Multiple Docker images
-description: Pulls set of docker images from a file or set of image names
 inputs:
-    filepath:
-       description: 'txt File with Image Names'
-       required: true
-       default: 'transformers-all-latest-torch-nightly-gpu'
+  modelname:
+    description: "Single Model Name to Pull"
+    required: false
+    default: "transformers-all-latest-torch-nightly-gpu"
+  
+  filepath:
+    description: "File containing list of images to pull"
+    required: false
 
 runs:
-    using: composite
-    steps:
-    - name: Pull docker image
+  using: composite
+  steps:
+    - name: Pull single Docker image
+      if: inputs.filepath == ''
       run: |
-            docker pull huggingface/${{ inputs.modelname }}
+        echo "Pulling single image: huggingface/${{ inputs.modelname }}"
+        docker pull huggingface/${{ inputs.modelname }}
       shell: bash
 
-
-    using: composite
-    steps:
-    - name: Pull Multiple Images from hugging face
+    - name: Pull multiple Docker images from file
+      if: inputs.filepath != ''
       run: |
-            set -e  # Exit on error
-
-            while IFS= read -r image; do
-            echo "Pulling $image..."
-            docker pull "$image"
-            done < ${{ inputs.filepath }}
+        set -e  # Exit on error
+        echo "Pulling multiple images from file: ${{ inputs.filepath }}"
+        while IFS= read -r image; do
+          echo "Pulling $image..."
+          docker pull "$image"
+        done < "${{ inputs.filepath }}"
+      shell: bash
