@@ -15,4 +15,4 @@ jobs:
       - name: Run Docker Pull Action
         uses: ./  # Assuming the action is in the repo root
         with:
-          modelname: "transformers-pytorch-gpu"
+          filepath: images.txt
