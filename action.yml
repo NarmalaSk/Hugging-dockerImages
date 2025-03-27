@@ -1,0 +1,14 @@
+name: pull docker image
+description: Pull Hugging face ML Model docker image from docker hub
+inputs:
+    modelname:
+        description: 'Model name'
+        required: true
+        default: 'transformers-all-latest-torch-nightly-gpu'
+
+runs:
+    using: composite
+    steps:
+    - name: Pull docker image
+      run: ./pull.sh ${{ inputs.modelname }}
+      shell: bash
