@@ -6,6 +6,14 @@ inputs:
         required: true
         default: 'transformers-all-latest-torch-nightly-gpu'
 
+name: Pull Multiple Docker images
+description: Pulls set of docker images from a file or set of image names
+inputs:
+    filepath:
+       description: 'txt File with Image Names'
+       required: true
+       default: 'transformers-all-latest-torch-nightly-gpu'
+
 runs:
     using: composite
     steps:
@@ -13,3 +21,15 @@ runs:
       run: |
             docker pull huggingface/${{ inputs.modelname }}
       shell: bash
+
+
+    using: composite
+    steps:
+    - name: Pull Multiple Images from hugging face
+      run: |
+            set -e  # Exit on error
+
+            while IFS= read -r image; do
+            echo "Pulling $image..."
+            docker pull "$image"
+            done < ${{ inputs.filepath }}
