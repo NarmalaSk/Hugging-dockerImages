@@ -1,6 +1,8 @@
 name: Pull Docker Images
 description: Pulls a Hugging Face ML model or multiple Docker images from a file
-
+branding:
+  icon: "check-circle"  # GitHub predefined icon
+  color: "blue"
 inputs:
   modelname:
     description: "Single Model Name to Pull"
