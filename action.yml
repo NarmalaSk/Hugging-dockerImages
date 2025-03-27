@@ -10,5 +10,7 @@ runs:
     using: composite
     steps:
     - name: Pull docker image
-      run: ./pull.sh ${{ inputs.modelname }}
+      run: |
+            chmod +x pull.sh
+            ./pull.sh ${{ inputs.modelname }}
       shell: bash
