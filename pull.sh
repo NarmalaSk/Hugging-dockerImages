@@ -15,6 +15,6 @@ fi
 echo "Pulling Docker image for model: $MODEL_NAME"
 
 # Pull the image from Hugging Face's Docker Hub
-docker pull "$MODEL_NAME"
+docker pull "huggingface/$MODEL_NAME"
 
 echo "Docker image $MODEL_NAME pulled successfully!"
